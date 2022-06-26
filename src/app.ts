@@ -4,13 +4,14 @@ import Scraper from "./scraper";
 var category: string;
 var query: string;
 var page_current: number = 1;
-
 const TelegramBot = require("node-telegram-bot-api");
-// Create a bot that uses 'polling' to fetch new updates
+
+//create bot instance
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 var answerCallbacks = {};
 
+//on message event
 bot.on("message", function (message) {
   var callback = answerCallbacks[message.chat.id];
   if (callback) {
@@ -19,10 +20,11 @@ bot.on("message", function (message) {
   }
 });
 
+//start bot
 bot.onText(/\/start/, (msg, match) => {
   bot.sendMessage(
     msg.chat.id,
-    "Ciao sono il tuo bot Subito Scraper, scegli uno dei comandi di seguito"
+    "Ciao sono il tuo bot Subito Scraper, scegli uno dei comandi nel menu in basso a sinistra"
   );
 });
 
@@ -36,7 +38,8 @@ async function SendDelayedMessages(links: string[], chatID) {
   }
 }
 
-function SetCategory(chatID: any, page: number = 1) {
+//start research
+function StartSearch(chatID: any, page: number = 1) {
   bot.on("callback_query", function onCallbackQueryCategory(callbackQuery) {
     category = callbackQuery.data;
 
@@ -48,6 +51,7 @@ function SetCategory(chatID: any, page: number = 1) {
   });
 }
 
+//scraper class logic
 function initScraping(chatID) {
   let scraper = new Scraper(query, category, page_current);
 
@@ -85,7 +89,7 @@ function initScraping(chatID) {
   });
 }
 
-/*  OOP version  */
+/*  Main search command  */
 bot.onText(/\/cerca/, (msg, match) => {
   bot.sendMessage(msg.chat.id, "Dimmi cosa cerchi").then(function () {
     answerCallbacks[msg.chat.id] = function (answer) {
@@ -101,7 +105,7 @@ bot.onText(/\/cerca/, (msg, match) => {
         .sendMessage(msg.chat.id, "Scegli una di queste categorie:", options)
         .then(function (res) {
           //funzione core
-          SetCategory(msg.chat.id);
+          StartSearch(msg.chat.id);
         });
     };
   });
