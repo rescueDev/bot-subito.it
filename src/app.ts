@@ -26,38 +26,6 @@ bot.onText(/\/start/, (msg, match) => {
   );
 });
 
-// Matches "/echo [whatever]"
-// bot.onText(/\/cerca/, (msg, match) => {
-//   bot.sendMessage(msg.chat.id, "Dimmi cosa cerchi").then(function () {
-//     answerCallbacks[msg.chat.id] = function (answer) {
-//       query = answer.text;
-//       console.log("query", query);
-
-//       /* options category */
-//       let options = {
-//         reply_markup: JSON.stringify({
-//           inline_keyboard: JSON.parse(Scraper.CreateJsonOption()),
-//         }),
-//       };
-
-//       /* step category */
-//       bot
-//         .sendMessage(msg.chat.id, "Scegli una di queste categorie:", options)
-//         .then(function (res) {
-//           bot.on("callback_query", function onCallbackQuery(callbackQuery) {
-//             category = callbackQuery.data;
-
-//             let scraper = new Scraper(query, category);
-//             let url = scraper.url;
-
-//             console.log("full url", url);
-//             fetchResults(url, msg.chat.id);
-//           });
-//         });
-//     };
-//   });
-// });
-
 //delayed sending messages, prevent too many request telegram server
 const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 async function SendDelayedMessages(links: string[], chatID) {
