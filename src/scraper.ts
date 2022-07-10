@@ -39,12 +39,12 @@ class Scraper {
     var arr_cat = [];
 
     for (let item in ECategory) {
-      let cat_text = ECategory[item];
-
+      let cat_text = item;
+      let cat_data = ECategory[item];
       let cat_inline = [
         {
           text: cat_text,
-          callback_data: cat_text,
+          callback_data: cat_data,
           command: "categories",
         },
       ];
